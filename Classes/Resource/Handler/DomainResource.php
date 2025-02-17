@@ -35,7 +35,7 @@ class DomainResource implements RemoteResourceInterface
      * @param string $configuration
      * @param ?RequestFactory $requestFactory
      */
-    public function __construct($configuration, RequestFactory $requestFactory = null)
+    public function __construct($configuration, ?RequestFactory $requestFactory = null)
     {
         $this->requestFactory = $requestFactory ?: GeneralUtility::makeInstance(RequestFactory::class);
         $urlParts = parse_url((string)$configuration);
@@ -49,7 +49,7 @@ class DomainResource implements RemoteResourceInterface
      * @param FileInterface|null $fileObject
      * @return bool
      */
-    public function hasFile($fileIdentifier, $filePath, FileInterface $fileObject = null)
+    public function hasFile($fileIdentifier, $filePath, ?FileInterface $fileObject = null)
     {
         try {
             $response = $this->requestFactory->request($this->url . ltrim($filePath, '/'), 'HEAD');
@@ -66,7 +66,7 @@ class DomainResource implements RemoteResourceInterface
      * @param FileInterface|null $fileObject
      * @return resource|string
      */
-    public function getFile($fileIdentifier, $filePath, FileInterface $fileObject = null)
+    public function getFile($fileIdentifier, $filePath, ?FileInterface $fileObject = null)
     {
         try {
             $fileName = $this->url . ltrim($filePath, '/');

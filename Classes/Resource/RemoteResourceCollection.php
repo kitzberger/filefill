@@ -62,7 +62,7 @@ class RemoteResourceCollection implements LoggerAwareInterface
      * @param ResourceFactory|null $resourceFactory
      * @param FileRepository|null $fileRepository
      */
-    public function __construct(array $resources, ResourceFactory $resourceFactory = null, FileRepository $fileRepository = null)
+    public function __construct(array $resources, ?ResourceFactory $resourceFactory = null, ?FileRepository $fileRepository = null)
     {
         $this->resources = $resources;
         $this->resourceFactory = $resourceFactory ?: GeneralUtility::makeInstance(ResourceFactory::class);
