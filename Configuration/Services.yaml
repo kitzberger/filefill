@@ -4,6 +4,9 @@ services:
         autoconfigure: true
         public: false
 
+    IchHabRecht\Filefill\:
+        resource: '../Classes/*'
+
     IchHabRecht\Filefill\EventListener\ResourceStorageInitializationEventListener:
         tags:
             -   name: psr.logger_aware

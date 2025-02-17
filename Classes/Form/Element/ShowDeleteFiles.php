@@ -18,14 +18,19 @@ namespace IchHabRecht\Filefill\Form\Element;
  */
 
 use IchHabRecht\Filefill\Repository\FileRepository;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Localization\LanguageService;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+#[Autoconfigure(public: true)]
 class ShowDeleteFiles extends AbstractFormElement
 {
+    protected LanguageService $languageService;
+
     /**
      * Container objects give $nodeFactory down to other containers.
      *
@@ -34,8 +39,9 @@ class ShowDeleteFiles extends AbstractFormElement
      */
     public function __construct(
         protected readonly FileRepository $fileRepository,
-        protected readonly LanguageService $languageService
+        protected readonly LanguageServiceFactory $languageServiceFactory
     ) {
+        $this->languageService = $this->languageServiceFactory->createFromUserPreferences($GLOBALS['BE_USER']);
     }
 
     /**

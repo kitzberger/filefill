@@ -18,23 +18,29 @@ namespace IchHabRecht\Filefill\Form\Element;
  */
 
 use Doctrine\DBAL\ParameterType;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Localization\LanguageService;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+#[Autoconfigure(public: true)]
 class ShowMissingFiles extends AbstractFormElement
 {
+    protected LanguageService $languageService;
+
     /**
      * Container objects give $nodeFactory down to other containers.
      *
      * @param LanguageService|null $languageService
      * @throws \InvalidArgumentException
      */
-    public function __construct(protected readonly LanguageService $languageService)
+    public function __construct(protected readonly LanguageServiceFactory $languageServiceFactory)
     {
+        $this->languageService = $this->languageServiceFactory->createFromUserPreferences($GLOBALS['BE_USER']);
     }
 
     /**
