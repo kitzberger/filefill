@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace IchHabRecht\Filefill\Hooks;
+namespace IchHabRecht\Filefill\EventListener;
 
 /*
  * This file is part of the TYPO3 extension filefill.
@@ -17,16 +17,20 @@ namespace IchHabRecht\Filefill\Hooks;
  * LICENSE file that was distributed with this source code.
  */
 
-class FlexFormToolsHook
+use TYPO3\CMS\Core\Configuration\Event\AfterFlexFormDataStructureParsedEvent;
+
+class FlexFormDataStructureParsedEventListener
 {
-    public function parseDataStructureByIdentifierPostProcess(array $dataStructure, $identifier)
+    public function __invoke(AfterFlexFormDataStructureParsedEvent $event)
     {
+        $identifier = $event->getIdentifier();
         if ($identifier['tableName'] !== 'sys_file_storage'
             || $identifier['fieldName'] !== 'tx_filefill_resources'
         ) {
-            return $dataStructure;
+            return;
         }
 
+        $dataStructure = $event->getDataStructure();
         $dataStructure['sheets']['sDEF']['ROOT']['el']['resources']['el'] = [];
 
         foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['filefill']['resourceHandler'] ?? [] as $resource => $configuration) {
@@ -39,15 +43,13 @@ class FlexFormToolsHook
 
             $dataStructure['sheets']['sDEF']['ROOT']['el']['resources']['el'][$resource] = [
                 'el' => [
-                    $resource => [
-                        'TCEforms' => $configuration['config'],
-                    ],
+                    $resource => $configuration['config'],
                 ],
                 'title' => $configuration['title'],
                 'type' => 'array',
             ];
         }
 
-        return $dataStructure;
+        $event->setDataStructure($dataStructure);
     }
 }

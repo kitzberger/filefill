@@ -32,7 +32,7 @@ class ResetCommand extends AbstractCommand
         $this->fileRepository = $fileRepository ?: GeneralUtility::makeInstance(FileRepository::class);
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this->setDescription('Resets missing files')
             ->addOption(
@@ -48,8 +48,9 @@ class ResetCommand extends AbstractCommand
      *
      * @param InputInterface $input
      * @param OutputInterface $output
+     * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $storage = $input->getOption('storage');
 

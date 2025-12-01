@@ -18,15 +18,26 @@ namespace IchHabRecht\Filefill\Resource\Handler;
  */
 
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Exception\TransferException;
 use IchHabRecht\Filefill\Resource\RemoteResourceInterface;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\HttpUtility;
 
-class DomainResource implements RemoteResourceInterface
+class PlaceholdResource implements RemoteResourceInterface
 {
+    /**
+     * @var array
+     */
+    protected $allowedFileExtensions = [
+        'avif',
+        'gif',
+        'jpeg',
+        'jpg',
+        'png',
+        'svg',
+        'webp',
+    ];
+
     /**
      * @var RequestFactory
      */
@@ -35,49 +46,44 @@ class DomainResource implements RemoteResourceInterface
     /**
      * @var string
      */
-    protected $url;
+    protected $url = 'https://placehold.co/';
 
-    /**
-     * @param string $configuration
-     * @param RequestFactory $requestFactory
-     */
-    public function __construct($configuration, RequestFactory $requestFactory = null)
+    public function __construct($_, RequestFactory $requestFactory = null)
     {
         $this->requestFactory = $requestFactory ?: GeneralUtility::makeInstance(RequestFactory::class);
-        $urlParts = parse_url((string)$configuration);
-        $urlParts['scheme'] = $urlParts['scheme'] ?? $_SERVER['REQUEST_SCHEME'];
-        $this->url = rtrim(HttpUtility::buildUrl($urlParts), '/') . '/';
     }
 
     /**
      * @param string $fileIdentifier
      * @param string $filePath
-     * @param FileInterface|null $fileObject
+     * @param FileInterface $fileObject
      * @return bool
      */
     public function hasFile($fileIdentifier, $filePath, FileInterface $fileObject = null)
     {
-        try {
-            $response = $this->requestFactory->request($this->url . ltrim($filePath, '/'), 'HEAD');
-
-            return $response->getStatusCode() === 200;
-        } catch (TransferException $e) {
-            return false;
-        }
+        return $fileObject instanceof FileInterface
+            && in_array($fileObject->getExtension(), $this->allowedFileExtensions, true);
     }
 
     /**
      * @param string $fileIdentifier
      * @param string $filePath
-     * @param FileInterface|null $fileObject
-     * @return resource|string
+     * @param FileInterface $fileObject
+     * @return string
      */
     public function getFile($fileIdentifier, $filePath, FileInterface $fileObject = null)
     {
         try {
-            $fileName = $this->url . ltrim($filePath, '/');
+            $fileExtension = $fileObject->getExtension();
+            $size = sprintf(
+                '%dx%d.%s',
+                max(1, $fileObject->getProperty('width')),
+                max(1, $fileObject->getProperty('height')),
+                $fileExtension
+            );
+            $response = $this->requestFactory->request($this->url . $size);
 
-            return @fopen($fileName, 'r') ?: $this->requestFactory->request($fileName)->getBody()->getContents();
+            return $response->getBody()->getContents();
         } catch (RequestException $e) {
             return false;
         }

@@ -13,8 +13,8 @@
     "license": "GPL-2.0-or-later",
     "authors": [
         {
-            "name": "Nicole Cordes",
-            "email": "typo3@cordes.co",
+            "name": "Nicole Hummel",
+            "email": "nicole-typo3@nimut.dev",
             "role": "Developer"
         }
     ],
@@ -23,8 +23,10 @@
         "typo3/cms-core": "^10.4.11 || ^11.5 || ^12.4"
     },
     "require-dev": {
+        "doctrine/dbal": "^2.11 || ^3.6.2",
         "phpunit/phpunit": "^9.6",
-        "typo3/testing-framework": "^6.16 || ^7.0.2"
+        "php-parallel-lint/php-parallel-lint": "^1.4",
+        "typo3/testing-framework": "^6.16.3 || ^7.0.4"
     },
     "autoload": {
         "psr-4": {

@@ -1,8 +1,8 @@
 # TYPO3 Extension filefill
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/ichhabrecht/filefill.svg)](https://packagist.org/packages/ichhabrecht/filefill)
-[![Build Status](https://img.shields.io/travis/IchHabRecht/filefill/main.svg)](https://travis-ci.org/IchHabRecht/filefill)
 [![StyleCI](https://styleci.io/repos/123628122/shield?branch=main)](https://styleci.io/repos/123628122)
+![GitHub Actions](https://github.com/IchHabRecht/filefill/actions/workflows/test.yml/badge.svg?event=push)
 
 Find and fetch missing local files from different remotes.
 
@@ -19,9 +19,9 @@ folder (e.g. fileadmin). You can re-run filefill at any time by deleting the loc
 
 ## Installation
 
-Simply install the extension with Composer or the Extension Manager.
+Simply install the extension with Composer as development dependency or the Extension Manager.
 
-`composer require ichhabrecht/filefill`
+`composer require --dev ichhabrecht/filefill`
 
 ## Usage
 
@@ -57,7 +57,7 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['filefill']['storages'][1] = [
         'identifier' => 'sys_domain',
     ],
     [
-        'identifier' => 'placeholder',
+        'identifier' => 'placehold',
     ],
     [
         'identifier' => 'ascii',
@@ -122,9 +122,9 @@ Configuration:
 
 There is no need for multiple usage. All domains are used by default.
 
-### Placeholder.com
+### Placehold.co
 
-Fetch a missing image from the [placeholder.com](https://placeholder.com) service. This fetches an image with the correct
+Fetch a missing image from the [placehold.co](https://placehold.co) service. This fetches an image with the correct
 resolution of the original file.
 
 Configuration:
