@@ -35,7 +35,7 @@ class AsciiResource implements RemoteResourceInterface
         $this->configuration = $configuration;
     }
 
-    public function hasFile($fileIdentifier, $filePath, FileInterface $fileObject = null)
+    public function hasFile($fileIdentifier, $filePath, FileInterface $fileObject = null): bool
     {
         return isset($this->configuration[$fileObject->getExtension()]);
     }
