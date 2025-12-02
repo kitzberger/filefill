@@ -81,7 +81,7 @@ call_user_func(function () {
                         'default' => '1',
                     ],
                 ],
-                'handler' => \IchHabRecht\Filefill\Resource\Picsum\PicsumResource::class,
+                'handler' => \IchHabRecht\Filefill\Resource\Handler\PicsumResource::class,
             ],
             'ascii' => [
                 'title' => 'LLL:EXT:filefill/Resources/Private/Language/locallang_db.xlf:sys_file_storage.filefill.ascii',
@@ -92,7 +92,7 @@ call_user_func(function () {
                         'default' => '1',
                     ],
                 ],
-                'handler' => \IchHabRecht\Filefill\Resource\Ascii\AsciiResource::class,
+                'handler' => \IchHabRecht\Filefill\Resource\Handler\AsciiResource::class,
             ],
         ],
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['filefill']['resourceHandler']

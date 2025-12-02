@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace IchHabRecht\Filefill\Resource\Picsum;
+namespace IchHabRecht\Filefill\Resource\Handler;
 
 /*
  * This file is part of the TYPO3 extension filefill.
